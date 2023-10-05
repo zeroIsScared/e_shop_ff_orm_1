@@ -1,0 +1,12 @@
+{    "compilerOptions": {
+        "outDir": "build",
+        "lib" : ["es2018"],
+        "target": "es2018",
+        "moduleResolution": "NodeNext",
+        "module": "NodeNext",
+        "declaration": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "rootDir": "./src",    
+    }
+}
