@@ -7,6 +7,8 @@ import SwaggerUI from '@fastify/swagger-ui';
 
 
 const  server = fastify();
+server.register(Swagger);
+server.register(SwaggerUI);
 
 
 server.register(import('fastify-typeorm-plugin'),{
@@ -20,25 +22,41 @@ server.register(import('fastify-typeorm-plugin'),{
     logging: true,
     synchronize: true       
   });
-
-
-
   server.register(productRoutes, {prefix: '/product'});
   
 
 
-server.get('/', async(request,reply)=>{
+server.get('/', {
+handler : async(request,reply) => {
     const products = await server.orm.manager
     .getRepository(Product)
     .createQueryBuilder('product')
     .getMany();
-    console.log(products)
- return reply.code(200).send({status:'active', products: products});
+   
+const newPayload = products.map(item => {
+    return {              
+        _type: 'Product',
+          id: item.id,
+        name: item.name,
+        price: {
+           ...item.price,
+            _type: "Money"
+        }
+    }
 });
 
+ reply.code(200).send({status:'active', products: newPayload});
+},
+preSerialization : async (request, reply,payload ) => {
+    //payload.products;
+   
+
+}});
 
 
-server.listen({port:3000}, (err, address)=>{
+
+
+server.listen({port:3000}, (err, address) =>  {
     if(err) {
         console.log(err);
         process.exit(1);
