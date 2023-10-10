@@ -4,6 +4,7 @@ import { Product } from './product/entities.js';
 import { productRoutes } from './product/api.js';
 import Swagger from '@fastify/swagger';
 import SwaggerUI from '@fastify/swagger-ui';
+import { Payload } from './product/schema.js';
 
 
 const  server = fastify();
@@ -24,7 +25,9 @@ server.register(import('fastify-typeorm-plugin'),{
   });
   server.register(productRoutes, {prefix: '/product'});
   
-
+  interface IPayload { 
+    products ,
+}
 
 server.get('/', {
 handler : async(request,reply) => {
@@ -32,23 +35,28 @@ handler : async(request,reply) => {
     .getRepository(Product)
     .createQueryBuilder('product')
     .getMany();
-   
-const newPayload = products.map(item => {
-    return {              
-        _type: 'Product',        
-        ...item,
-        price: {
-           ...item.price,
-            _type: "Money"
-        }
-    }
-});
 
- reply.code(200).send({status:'active', products: newPayload});
+     reply.code(200).send({status:'active', products: products});
+
 },
-preSerialization : async (request, reply,payload ) => {
-    //payload.products;
-   
+preSerialization : async (request, reply,payload : Payload ) => {
+
+  let newPayload = {};
+
+for( let item in payload.products) {
+    newPayload[item]= {
+        _type: 'Product', 
+...payload.products[item],
+price: {
+    ...payload.products[item].price,
+     _type: "Money"
+    }
+    }
+
+   // console.log(newPayload)
+}
+
+return {status: 200, newPayload};
 
 }});
 

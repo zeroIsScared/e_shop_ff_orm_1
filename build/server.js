@@ -24,22 +24,22 @@ server.get('/', {
             .getRepository(Product)
             .createQueryBuilder('product')
             .getMany();
-        const newPayload = products.map(item => {
-            return {
+        reply.code(200).send({ status: 'active', products: products });
+    },
+    preSerialization: async (request, reply, payload) => {
+        let newPayload = {};
+        for (let item in payload.products) {
+            newPayload[item] = {
                 _type: 'Product',
-                //   id: item.id,
-                // name: item.name,
-                ...item,
+                ...payload.products[item],
                 price: {
-                    ...item.price,
+                    ...payload.products[item].price,
                     _type: "Money"
                 }
             };
-        });
-        reply.code(200).send({ status: 'active', products: newPayload });
-    },
-    preSerialization: async (request, reply, payload) => {
-        //payload.products;
+            // console.log(newPayload)
+        }
+        return { status: 200, newPayload };
     }
 });
 server.listen({ port: 3000 }, (err, address) => {

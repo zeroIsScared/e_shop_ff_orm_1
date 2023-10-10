@@ -17,5 +17,10 @@ export const ProductReply = Type.Object({
     
 });
 
+
+
+    
+
+
 export type ProductRequestType = Static <typeof ProductRequest>
 export type ProductReplyType = Static <typeof ProductReply>
