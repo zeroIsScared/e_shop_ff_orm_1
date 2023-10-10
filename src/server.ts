@@ -4,7 +4,7 @@ import { Product } from './product/entities.js';
 import { productRoutes } from './product/api.js';
 import Swagger from '@fastify/swagger';
 import SwaggerUI from '@fastify/swagger-ui';
-import { Payload } from './product/schema.js';
+
 
 
 const  server = fastify();
@@ -39,7 +39,7 @@ handler : async(request,reply) => {
      reply.code(200).send({status:'active', products: products});
 
 },
-preSerialization : async (request, reply,payload : Payload ) => {
+preSerialization : async (request, reply,payload : IPayload) => {
 
   let newPayload = {};
 
@@ -56,7 +56,7 @@ price: {
    // console.log(newPayload)
 }
 
-return {status: 200, newPayload};
+return {status: 200, products:newPayload};
 
 }});
 

@@ -39,7 +39,7 @@ server.get('/', {
             };
             // console.log(newPayload)
         }
-        return { status: 200, newPayload };
+        return { status: 200, products: newPayload };
     }
 });
 server.listen({ port: 3000 }, (err, address) => {

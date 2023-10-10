@@ -12,17 +12,5 @@ export declare const ProductReply: import("@sinclair/typebox").TObject<{
         currency: import("@sinclair/typebox").TString;
     }>;
 }>;
-export declare const Payload: import("@sinclair/typebox").TObject<{
-    status: import("@sinclair/typebox").TNumber;
-    products: import("@sinclair/typebox").TObject<{
-        id: import("@sinclair/typebox").TNumber;
-        name: import("@sinclair/typebox").TNumber;
-        price: import("@sinclair/typebox").TObject<{
-            amount: import("@sinclair/typebox").TNumber;
-            currency: import("@sinclair/typebox").TString;
-        }>;
-    }>;
-}>;
-export type Payload = Static<typeof Payload>;
 export type ProductRequestType = Static<typeof ProductRequest>;
 export type ProductReplyType = Static<typeof ProductReply>;
