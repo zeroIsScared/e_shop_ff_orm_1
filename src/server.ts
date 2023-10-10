@@ -35,9 +35,8 @@ handler : async(request,reply) => {
    
 const newPayload = products.map(item => {
     return {              
-        _type: 'Product',
-          id: item.id,
-        name: item.name,
+        _type: 'Product',        
+        ...item,
         price: {
            ...item.price,
             _type: "Money"

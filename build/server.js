@@ -27,8 +27,9 @@ server.get('/', {
         const newPayload = products.map(item => {
             return {
                 _type: 'Product',
-                id: item.id,
-                name: item.name,
+                //   id: item.id,
+                // name: item.name,
+                ...item,
                 price: {
                     ...item.price,
                     _type: "Money"
@@ -38,7 +39,7 @@ server.get('/', {
         reply.code(200).send({ status: 'active', products: newPayload });
     },
     preSerialization: async (request, reply, payload) => {
-        return payload;
+        //payload.products;
     }
 });
 server.listen({ port: 3000 }, (err, address) => {
